@@ -10,10 +10,10 @@
 |--------------|------------------|
 | **Languages** | javascript/html-css |
 | **Technologies** | web/responsive |
-| **Frameworks** | none |
+| **Frameworks** | html5/css3 |
 | **Status** | production |
 | **Year** | 2024 |
-| **Featured** | false |
+| **Featured** | true |
 | **HasDownload** | false |
 | **DownloadUrl** | none |
 
