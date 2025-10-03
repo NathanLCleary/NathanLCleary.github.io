@@ -807,7 +807,7 @@ textarea,
 select {
     display: block;
     height: 6.8rem;
-    padding: 1.8rem 0 1.5rem;
+    padding: 1.8rem 2 1.5rem;
     border: 0;
     outline: none;
     color: #000000;
@@ -981,7 +981,7 @@ input[type="button"] {
     line-height: 5.6rem;
     padding: 0 3.2rem;
     margin: 0 .4rem 1.6rem 0;
-    color: #000000;
+    color: #ffffff;
     text-decoration: none;
     text-align: center;
     white-space: nowrap;
@@ -990,8 +990,8 @@ input[type="button"] {
     transition: all .3s;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #d3d3d3;
-    border: 0.2rem solid #d3d3d3;
+    background-color: #544d9d;
+    border: 0.2rem solid #544d9d;
 }
 
 .btn:hover,
@@ -1004,8 +1004,8 @@ button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
-    background-color: #000000;
-    border-color: #000000;
+    background-color: #f9861a;
+    border-color: #f9861a;
     color: #ffffff;
     outline: 0;
 }
@@ -1034,8 +1034,8 @@ button.btn--primary:focus,
 input[type="submit"].btn--primary:focus,
 input[type="reset"].btn--primary:focus,
 input[type="button"].btn--primary:focus {
-    background: #000000;
-    border-color: #000000;
+    background: #1d1b37;
+    border-color: #1d1b37;
 }
 
 
@@ -1069,14 +1069,14 @@ button.btn--large {
 .btn--stroke,
 button.btn--stroke {
     background: transparent !important;
-    border: 0.2rem solid #000000;
-    color: #000000;
+    border: 0.2rem solid #f9861a;
+    color: #f9861a;
 }
 
 .btn--stroke:hover,
 button.btn--stroke:hover {
-    background: #000000 !important;
-    border: 0.2rem solid #000000;
+    background: #f9861a !important;
+    border: 0.2rem solid #f9861a;
     color: #ffffff;
 }
 
@@ -2809,14 +2809,7 @@ html.no-csstransitions .hero-content {
 }
 
 .s-portfolio::before {
-    content: "";
-    display: block;
-    background-color: #b3c2c1;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 50%;
+    display: none;
 }
 
 

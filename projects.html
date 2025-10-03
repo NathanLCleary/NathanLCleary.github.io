@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <!--- basic page needs ================================================== -->
+    <meta charset="utf-8">
+    <title>Nathan Cleary - Projects</title>
+    <meta name="description" content="Comprehensive portfolio of 60+ software development projects across multiple programming languages and technologies">
+    <meta name="author" content="Nathan Cleary">
+
+    <!-- mobile specific metas ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS ================================================== -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/projects.css">
+
+    <!-- script ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logo.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo.svg">
+    <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body id="top">
+
+    <!-- preloader ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- header ================================================== -->
+    <header class="s-header">
+        <div class="header-logo">
+            <a href="index.html">
+                <img src="images/logo.svg" alt="Homepage">
+            </a>
+        </div>
+
+        <div class="header-content">
+            <nav class="row header-nav-wrap">
+                <ul class="header-nav">
+                    <li><a href="index.html#hero" title="Home">Home</a></li>
+                    <li><a href="index.html#about" title="About">About</a></li>
+                    <li><a href="index.html#services" title="Services">Services</a></li>
+                    <li><a class="smoothscroll" href="#projects" title="Projects">Projects</a></li>
+                    <li><a href="index.html#contact" title="Contact">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="Nathan Cleary CV.docx" class="btn btn--stroke btn--small">Download CV</a>
+        </div>
+
+        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+    </header>
+
+    <!-- projects hero ================================================== -->
+    <section id="projects-hero" class="s-projects-hero target-section">
+        <div class="row projects-hero-content">
+            <div class="column large-full">
+                <h1>My Projects</h1>
+                <p class="projects-hero-desc">
+                    Explore my comprehensive portfolio of 60+ software development projects spanning multiple programming languages, 
+                    frameworks, and technologies. From enterprise applications to innovative IoT solutions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- projects section ================================================== -->
+    <section id="projects" class="s-projects target-section">
+        
+        <!-- Filter Controls -->
+        <div class="projects-filters">
+            <div class="row">
+                <div class="column large-full">
+                    <div class="filter-controls">
+                        <h3>Filter Projects</h3>
+                        
+                        <div class="filters-row">
+                            <!-- Category Filter -->
+                            <div class="filter-group">
+                                <select id="categoryFilter" class="filter-select">
+                                    <option value="all">All Categories</option>
+                                    <option value="professional">Professional Portfolios</option>
+                                    <option value="production">Production Applications</option>
+                                    <option value="web-games">Web Games & Interactive</option>
+                                    <option value="academic">Academic & Learning</option>
+                                    <option value="mobile">Mobile Development</option>
+                                    <option value="iot">IoT & Hardware</option>
+                                    <option value="data-science">Data Science</option>
+                                    <option value="game-dev">Game Development</option>
+                                    <option value="web-dev">Web Development</option>
+                                </select>
+                            </div>
+
+                            <!-- Language Filter -->
+                            <div class="filter-group">
+                                <select id="languageFilter" class="filter-select">
+                                    <option value="all">All Languages</option>
+                                    <option value="python">Python</option>
+                                    <option value="java">Java</option>
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="csharp">C#</option>
+                                    <option value="cpp">C/C++</option>
+                                    <option value="php">PHP</option>
+                                    <option value="kotlin">Kotlin</option>
+                                    <option value="html-css">HTML/CSS</option>
+                                </select>
+                            </div>
+
+                            <!-- Technology Filter -->
+                            <div class="filter-group">
+                                <select id="technologyFilter" class="filter-select">
+                                    <option value="all">All Technologies</option>
+                                    <option value="android">Android</option>
+                                    <option value="unity">Unity</option>
+                                    <option value="database">Database</option>
+                                    <option value="api">API Integration</option>
+                                    <option value="machine-learning">Machine Learning</option>
+                                    <option value="iot">IoT/Arduino</option>
+                                    <option value="web">Web Technologies</option>
+                                    <option value="gui">GUI Applications</option>
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="filter-group">
+                                <select id="statusFilter" class="filter-select">
+                                    <option value="all">All Status</option>
+                                    <option value="production">Production Ready</option>
+                                    <option value="showcase">Portfolio Showcase</option>
+                                    <option value="academic">Academic Complete</option>
+                                    <option value="experimental">Experimental</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                        
+                        <div class="search-row">
+                            <!-- Search -->
+                            <div class="filter-group">
+                                <input type="text" id="searchFilter" class="filter-input" placeholder="Search projects...">
+                            </div>
+
+                            <!-- Clear Filters -->
+                            <div class="filter-group">
+                                <button id="clearFilters" class="btn btn--primary btn--small">Clear Filters</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+            <div class="row">
+                <div class="column large-full">
+                    <div id="projectsContainer" class="projects-container">
+                        <!-- Projects will be dynamically inserted here -->
+                    </div>
+                    
+                    <!-- No Results Message -->
+                    <div id="noResults" class="no-results" style="display: none;">
+                        <h3>No projects found</h3>
+                        <p>Try adjusting your filters or search terms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- footer ================================================== -->
+    <section id="contact">
+        <footer class="s-footer h-dark-bg">
+            <div class="right-vert-line"></div>
+
+            <div class="row s-footer__main">
+                <div class="column large-6">
+                    <div class="section-intro" data-aos="fade-up">
+                        <h3 class="subhead">Get In Touch</h3>
+                        <h1 class="display-1">
+                            Have an idea or a concept that really excite you? Let's turn that idea into reality. Shoot me a message.
+                        </h1>
+                    </div>
+
+                    <div class="footer-email-us">
+                        <a href="mailto:nathanlcleary@gmail.com" class="btn btn--primary h-full-width">Let's Talk</a>
+                    </div>
+                </div>
+
+                <div class="column large-5">
+                    <div class="footer-contacts">
+                        <div class="footer-contact-block" data-aos="fade-up">
+                            <h5 class="footer-contact-block__header">Email</h5>
+                            <p class="footer-contact-block__content">
+                                <a href="mailto:nathanlcleary@gmail.com">Nathanlcleary@gmail.com</a>
+                            </p>
+                        </div>
+                        <div class="footer-contact-block" data-aos="fade-up">
+                            <h5 class="footer-contact-block__header">Phone</h5>
+                            <p class="footer-contact-block__content">
+                                Country Code: +353 <br> Number: <a href="tel:+353871697323">087 169 7323</a>
+                            </p>
+                        </div>
+                        <br>
+                        <div class="footer-contact-block" data-aos="fade-up">
+                            <h5 class="footer-contact-block__header">Social</h5>
+                            <ul class="footer-contact-block__list">
+                                <li><a href="https://www.linkedin.com/in/nathanlcleary/">LinkedIn</a></li>
+                                <li><a href="https://github.com/NathanLCleary?tab=repositories">Github</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row s-footer__bottom">
+                <div class="column large-full ss-copyright">
+                    <span>© Copyright Ethos 2019</span>
+                    <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                </div>
+
+                <div class="ss-go-top">
+                    <a class="smoothscroll" title="Back to Top" href="#top">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0l8 9h-6v15h-4v-15h-6z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- JavaScript ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/projects.js"></script>
+
+</body>
+</html>
