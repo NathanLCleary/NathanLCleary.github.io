@@ -54,6 +54,7 @@
     padding-bottom: 8rem;
     background-color: #ffffff;
     position: relative;
+    min-height: calc(100vh - 40vh);
 }
 
 /* Filter Controls */

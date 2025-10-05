@@ -53,7 +53,7 @@ jobs:
                 let value = match[2].trim();
                 
                 // Skip empty or placeholder values
-                if (!value || value === '[category]' || value === '[languages]') continue;
+                if (!value || value.startsWith('[') || value === 'none' || value === 'N/A') continue;
                 
                 switch (key) {
                   case 'category': 
@@ -167,7 +167,7 @@ jobs:
         (async () => {
           try {
             const repos = await fetchWithAuth('https://api.github.com/users/NathanLCleary/repos?per_page=100&sort=updated', process.env.GITHUB_TOKEN);
-            const publicRepos = repos.filter(repo => !repo.fork && !repo.private);
+            const publicRepos = repos.filter(repo => !repo.fork && !repo.private && repo.name !== 'NathanLCleary.github.io');
             
             const projects = [];
             
@@ -197,25 +197,28 @@ jobs:
                   return title;
                 })(),
                 category: metadata?.category || categorizeRepository(repo),
-                description: repo.description || 'No description available',
-                languages: metadata?.languages || [repo.language?.toLowerCase() || 'javascript'].filter(l => l),
-                technologies: metadata?.technologies || extractTechnologies(repo),
-                frameworks: metadata?.frameworks || repo.topics || [],
-                status: metadata?.status || 'academic',
+                description: repo.description || 'Professional software development project',
+                languages: (metadata?.languages && metadata.languages.length > 0) ? metadata.languages : [repo.language?.toLowerCase() || 'javascript'].filter(l => l),
+                technologies: (metadata?.technologies && metadata.technologies.length > 0) ? metadata.technologies : extractTechnologies(repo),
+                frameworks: (metadata?.frameworks && metadata.frameworks.length > 0) ? metadata.frameworks : repo.topics || [],
+                status: metadata?.status || (categorizeRepository(repo) === 'production' ? 'production' : 'academic'),
                 year: metadata?.year || new Date(repo.created_at).getFullYear().toString(),
                 githubUrl: repo.html_url,
-                hasDownload: metadata?.hasDownload || false,
-                featured: metadata?.featured || repo.stargazers_count > 3 || repo.name.includes('portfolio')
+                hasDownload: metadata?.hasDownload === true,
+                featured: metadata?.featured === true || repo.stargazers_count > 3 || repo.name.includes('portfolio')
               };
               
               // Handle download URLs
-              if (project.hasDownload && metadata?.downloadUrl) {
+              if (project.hasDownload && metadata?.downloadUrl && metadata.downloadUrl !== 'none') {
                 if (metadata.downloadUrl.startsWith('http')) {
                   project.downloadUrl = metadata.downloadUrl;
                 } else {
                   // GitHub Pages URL
                   project.downloadUrl = \`https://nathanlcleary.github.io/\${metadata.downloadUrl}\`;
                 }
+              } else if (project.hasDownload) {
+                // If hasDownload is true but no URL, use GitHub releases
+                project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
               }
               
               projects.push(project);
@@ -224,8 +227,8 @@ jobs:
             const currentFile = fs.readFileSync('js/projects.js', 'utf8');
             
             const newContent = currentFile.replace(
-              /const projectsData = .*?(?=\n\/\/ DOM elements)/s,
-              \`const projectsData = \${JSON.stringify(projects, null, 4)};\\n\\n\`
+              /const projectsData = \[[\s\S]*?\];/,
+              \`const projectsData = \${JSON.stringify(projects, null, 4)};\`
             );
             
             fs.writeFileSync('js/projects.js', newContent);
