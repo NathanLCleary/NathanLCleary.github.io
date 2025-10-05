@@ -114,6 +114,35 @@ Portfolio/
 ### **Contributing**
 This is part of Nathan Cleary's portfolio. Feel free to fork and adapt for educational purposes.
 
+## 📊 **VERSION HISTORY**
+
+### **v2.2.0 (Current) - 5 October 2025** - Automated Portfolio Updates
+- Added: Automated portfolio update workflow
+- Added: GitHub Actions integration for daily updates
+- Added: Enhanced metadata parsing and project categorization
+- Improved: Project data synchronization with GitHub repositories
+
+### **v2.1.0 - 3 October 2025** - Portfolio Metadata Enhancement
+- Added: README.md with portfolio metadata
+- Added: Standardized project metadata structure
+- Improved: Documentation and project information
+
+### **v2.0.0 - 3 October 2025** - Portfolio UI Enhancements
+- Added: Project library with comprehensive project showcase
+- Added: Background images to project cards
+- Improved: Button colors and hover states
+- Improved: Layout and visual consistency
+- Fixed: Typos and content descriptions
+
+### **v1.1.0 - 25 January 2023** - Visual Updates
+- Changed: Background design and styling
+- Improved: Overall visual appearance
+
+### **v1.0.0 - 20 November 2022** - Initial Release
+- Added: Initial portfolio website structure
+- Added: Basic project showcase functionality
+- Added: Core HTML/CSS/JavaScript implementation
+
 ---
 
 ## 📄 **LICENSE & CONTACT**

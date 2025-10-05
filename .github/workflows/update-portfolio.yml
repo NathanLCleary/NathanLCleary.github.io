@@ -1,0 +1,251 @@
+name: Update Portfolio Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+  workflow_dispatch:
+
+jobs:
+  update-portfolio:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Update portfolio data
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        node -e "
+        const fs = require('fs');
+        
+        async function fetchWithAuth(url, token) {
+          const response = await fetch(url, {
+            headers: {
+              'Authorization': \`token \${token}\`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+          return response.json();
+        }
+        
+        function parseReadmeMetadata(readme) {
+          if (!readme) return null;
+          
+          const metadata = {};
+          const lines = readme.split('\\n');
+          let inMetadataTable = false;
+          
+          for (const line of lines) {
+            if (line.includes('**PROJECT METADATA**')) {
+              inMetadataTable = true;
+              continue;
+            }
+            if (inMetadataTable && line.includes('---')) break;
+            if (inMetadataTable && line.includes('|')) {
+              const match = line.match(/\\|\\s*\\*\\*([^*]+)\\*\\*\\s*\\|\\s*([^|]+)\\s*\\|/);
+              if (match) {
+                const key = match[1].trim().toLowerCase();
+                let value = match[2].trim();
+                
+                // Skip empty or placeholder values
+                if (!value || value === '[category]' || value === '[languages]') continue;
+                
+                switch (key) {
+                  case 'category': 
+                    metadata.category = value; 
+                    break;
+                  case 'languages': 
+                    metadata.languages = value.split('/').map(l => l.trim()).filter(l => l && !l.startsWith('[')); 
+                    break;
+                  case 'technologies': 
+                    metadata.technologies = value.split('/').map(t => t.trim()).filter(t => t && !t.startsWith('[')); 
+                    break;
+                  case 'frameworks': 
+                    metadata.frameworks = value.split('/').map(f => f.trim()).filter(f => f && !f.startsWith('[')); 
+                    break;
+                  case 'status': 
+                    metadata.status = value; 
+                    break;
+                  case 'year': 
+                    metadata.year = value; 
+                    break;
+                  case 'featured': 
+                    metadata.featured = value.toLowerCase() === 'true'; 
+                    break;
+                  case 'hasdownload': 
+                    metadata.hasDownload = value.toLowerCase() === 'true'; 
+                    break;
+                  case 'downloadurl': 
+                    if (value && !value.startsWith('[')) metadata.downloadUrl = value; 
+                    break;
+                }
+              }
+            }
+          }
+          
+          return Object.keys(metadata).length > 0 ? metadata : null;
+        }
+        
+        function categorizeRepository(repo) {
+          const name = repo.name.toLowerCase();
+          const desc = (repo.description || '').toLowerCase();
+          const content = \`\${name} \${desc}\`;
+          
+          // Professional portfolios
+          if (name.includes('portfolio') || name.includes('showcase')) return 'professional';
+          
+          // Production applications
+          if (name.includes('youtube-auto-uploader') || name.includes('raven-messaging') || 
+              name.includes('smart-home') || name.includes('weather-app') || name.includes('merchgeek')) {
+            return 'production';
+          }
+          
+          // Web games and interactive projects
+          if (name.includes('game') || name.includes('lotto') || name.includes('poker') || 
+              name.includes('memory') || name.includes('target') || name.includes('rock') ||
+              name.includes('bucket') || name.includes('naughty') || name.includes('fill')) {
+            return 'web-games';
+          }
+          
+          // Mobile development
+          if (name.includes('android') || content.includes('mobile')) return 'mobile';
+          
+          // IoT and hardware
+          if (name.includes('arduino') || name.includes('iot') || name.includes('raspberry') ||
+              name.includes('darkpaw') || name.includes('mqtt') || content.includes('sensor')) {
+            return 'iot';
+          }
+          
+          // Data science
+          if (name.includes('data') || name.includes('mining') || name.includes('analysis') ||
+              content.includes('machine learning') || content.includes('jupyter')) {
+            return 'data-science';
+          }
+          
+          // Game development (Unity, etc.)
+          if (name.includes('unity') || name.includes('connect4') || content.includes('unity')) {
+            return 'game-dev';
+          }
+          
+          // Web development
+          if (name.includes('web') || name.includes('portfolio') || name.includes('eportfolio') ||
+              name.includes('cartrader') || name.includes('affiliate') || name.includes('newsagent')) {
+            return 'web-dev';
+          }
+          
+          return 'academic';
+        }
+        
+        function extractTechnologies(repo) {
+          const content = \`\${repo.name} \${repo.description || ''}\`.toLowerCase();
+          const technologies = [];
+          
+          // Core technologies
+          if (content.includes('android')) technologies.push('android');
+          if (content.includes('web') || content.includes('html') || content.includes('css')) technologies.push('web');
+          if (content.includes('database') || content.includes('sql') || content.includes('jdbc')) technologies.push('database');
+          if (content.includes('api') || content.includes('rest')) technologies.push('api');
+          if (content.includes('unity') || content.includes('game')) technologies.push('3d-graphics');
+          if (content.includes('arduino') || content.includes('iot') || content.includes('raspberry')) technologies.push('iot');
+          if (content.includes('machine') || content.includes('data') || content.includes('mining')) technologies.push('machine-learning');
+          if (content.includes('gui') || content.includes('desktop')) technologies.push('gui');
+          if (content.includes('messaging') || content.includes('raven')) technologies.push('messaging');
+          if (content.includes('automation') || content.includes('uploader')) technologies.push('automation');
+          if (content.includes('sensor') || content.includes('smart')) technologies.push('sensors');
+          if (content.includes('alexa') || content.includes('voice')) technologies.push('voice-recognition');
+          if (content.includes('responsive') || content.includes('mobile')) technologies.push('responsive');
+          if (content.includes('e-commerce') || content.includes('store') || content.includes('trading')) technologies.push('e-commerce');
+          
+          return technologies.length > 0 ? technologies : ['cli'];
+        }
+        
+        (async () => {
+          try {
+            const repos = await fetchWithAuth('https://api.github.com/users/NathanLCleary/repos?per_page=100&sort=updated', process.env.GITHUB_TOKEN);
+            const publicRepos = repos.filter(repo => !repo.fork && !repo.private);
+            
+            const projects = [];
+            
+            for (let i = 0; i < publicRepos.length; i++) {
+              const repo = publicRepos[i];
+              
+              let readme = null;
+              try {
+                const readmeData = await fetchWithAuth(\`https://api.github.com/repos/NathanLCleary/\${repo.name}/readme\`, process.env.GITHUB_TOKEN);
+                if (readmeData && readmeData.content) {
+                  readme = Buffer.from(readmeData.content, 'base64').toString('utf-8');
+                }
+              } catch (e) {
+                console.log(\`No README found for \${repo.name}\`);
+              }
+              
+              const metadata = parseReadmeMetadata(readme);
+              
+              const project = {
+                id: i + 1,
+                title: (() => {
+                  let title = repo.name.replace(/-/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase());
+                  if (title.includes('Iot')) title = title.replace('Iot', 'IoT');
+                  if (title.includes('Api')) title = title.replace('Api', 'API');
+                  if (title.includes('Sql')) title = title.replace('Sql', 'SQL');
+                  if (title.includes('Ui')) title = title.replace('Ui', 'UI');
+                  return title;
+                })(),
+                category: metadata?.category || categorizeRepository(repo),
+                description: repo.description || 'No description available',
+                languages: metadata?.languages || [repo.language?.toLowerCase() || 'javascript'].filter(l => l),
+                technologies: metadata?.technologies || extractTechnologies(repo),
+                frameworks: metadata?.frameworks || repo.topics || [],
+                status: metadata?.status || 'academic',
+                year: metadata?.year || new Date(repo.created_at).getFullYear().toString(),
+                githubUrl: repo.html_url,
+                hasDownload: metadata?.hasDownload || false,
+                featured: metadata?.featured || repo.stargazers_count > 3 || repo.name.includes('portfolio')
+              };
+              
+              // Handle download URLs
+              if (project.hasDownload && metadata?.downloadUrl) {
+                if (metadata.downloadUrl.startsWith('http')) {
+                  project.downloadUrl = metadata.downloadUrl;
+                } else {
+                  // GitHub Pages URL
+                  project.downloadUrl = \`https://nathanlcleary.github.io/\${metadata.downloadUrl}\`;
+                }
+              }
+              
+              projects.push(project);
+            }
+            
+            const currentFile = fs.readFileSync('js/projects.js', 'utf8');
+            
+            const newContent = currentFile.replace(
+              /const projectsData = .*?(?=\n\/\/ DOM elements)/s,
+              \`const projectsData = \${JSON.stringify(projects, null, 4)};\\n\\n\`
+            );
+            
+            fs.writeFileSync('js/projects.js', newContent);
+            
+            console.log(\`Updated portfolio with \${projects.length} projects\`);
+          } catch (error) {
+            console.error('Error:', error);
+            process.exit(1);
+          }
+        })();
+        "
+        
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add js/projects.js
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Auto-update portfolio data"
+          git push
+        fi
