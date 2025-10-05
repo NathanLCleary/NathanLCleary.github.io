@@ -71,313 +71,261 @@ function getProjectBackgroundImage(projectTitle, category, technologies) {
 
 // Project data updated daily by GitHub Actions
 const projectsData = [
-    // Professional Portfolio Repositories (8 projects)
     {
-        id: 1,
-        title: "YouTube Auto Uploader",
-        category: "production",
-        description: "Automated video uploading application with GUI interface, scheduling, and monitoring. Features real-time progress tracking, SQLite database integration, and YouTube API authentication.",
-        languages: ["python"],
-        technologies: ["gui", "api", "database"],
-        frameworks: ["tkinter", "sqlite"],
-        status: "production",
-        year: "2024",
-        featured: true,
-        githubUrl: "https://github.com/NathanLCleary/YouTube-Auto-Uploader",
-        downloadUrl: "https://github.com/NathanLCleary/YouTube-Auto-Uploader-Public/releases/latest",
-        hasDownload: true
+        "id": 1,
+        "title": "NathanLCleary.Github.Io",
+        "category": "web-dev",
+        "description": "No description available",
+        "languages": [
+            "css"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2022",
+        "githubUrl": "https://github.com/NathanLCleary/NathanLCleary.github.io",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 2,
-        title: "Java Learning Portfolio",
-        category: "professional",
-        description: "Comprehensive showcase of Java development from fundamentals to enterprise applications. Includes object-oriented programming, data structures, algorithms, and enterprise patterns.",
-        languages: ["java"],
-        technologies: ["database", "gui"],
-        frameworks: ["jdbc", "jpa"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/Java-Learning-Portfolio",
-        hasDownload: false
+        "id": 2,
+        "title": "Raven Messaging System",
+        "category": "production",
+        "description": "No description available",
+        "languages": [
+            "java"
+        ],
+        "technologies": [
+            "messaging"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2023",
+        "githubUrl": "https://github.com/NathanLCleary/Raven-Messaging-System",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 3,
-        title: "Python Learning Portfolio",
-        category: "professional",
-        description: "Data science, machine learning, GUI development, and software engineering demonstrations. Features comprehensive ML algorithms and data analysis techniques.",
-        languages: ["python"],
-        technologies: ["machine-learning", "gui", "api"],
-        frameworks: ["jupyter", "pandas", "scikit-learn"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/Python-Learning-Portfolio",
-        hasDownload: false
+        "id": 3,
+        "title": "MemoryGame",
+        "category": "web-games",
+        "description": "No description available",
+        "languages": [
+            "javascript"
+        ],
+        "technologies": [
+            "3d-graphics"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2025",
+        "githubUrl": "https://github.com/NathanLCleary/memoryGame",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 4,
-        title: "Android Development Portfolio",
-        category: "professional",
-        description: "Native mobile applications with modern architecture patterns and enterprise solutions. Includes sensor integration, GPS functionality, and notification services.",
-        languages: ["java", "kotlin"],
-        technologies: ["android", "database", "api"],
-        frameworks: ["android-sdk"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/Android-Development-Portfolio",
-        hasDownload: false
+        "id": 4,
+        "title": "RockPaperScissors",
+        "category": "web-games",
+        "description": "No description available",
+        "languages": [
+            "javascript"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2025",
+        "githubUrl": "https://github.com/NathanLCleary/RockPaperScissors",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 5,
-        title: "Web Development Showcase",
-        category: "professional",
-        description: "Full-stack web applications demonstrating modern web technologies and frameworks. Features responsive design, interactive games, and e-commerce solutions.",
-        languages: ["javascript", "html-css", "php"],
-        technologies: ["web", "database"],
-        frameworks: ["html5", "css3", "mysql"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/Web-Development-Showcase",
-        hasDownload: false
+        "id": 5,
+        "title": "LuckyNumbersLotto",
+        "category": "web-games",
+        "description": "No description available",
+        "languages": [
+            "javascript"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2025",
+        "githubUrl": "https://github.com/NathanLCleary/LuckyNumbersLotto",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 6,
-        title: "Game Development Portfolio",
-        category: "professional",
-        description: "Unity projects, Java games, and interactive entertainment system development. Includes 3D graphics, game logic, and AI opponents.",
-        languages: ["csharp", "java"],
-        technologies: ["unity", "gui"],
-        frameworks: ["unity-engine"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/Game-Development-Portfolio",
-        hasDownload: false
+        "id": 6,
+        "title": "Gaming Store",
+        "category": "web-dev",
+        "description": "No description available",
+        "languages": [
+            "javascript"
+        ],
+        "technologies": [
+            "e-commerce"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2022",
+        "githubUrl": "https://github.com/NathanLCleary/Gaming-Store",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 7,
-        title: "Arduino IoT Projects",
-        category: "professional",
-        description: "Embedded systems development, sensor integration, and connected device solutions. Features robotics projects and smart home automation.",
-        languages: ["cpp"],
-        technologies: ["iot", "arduino"],
-        frameworks: ["arduino-ide"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/Arduino-IoT-Projects",
-        hasDownload: false
+        "id": 7,
+        "title": "Newsagent System",
+        "category": "web-dev",
+        "description": "No description available",
+        "languages": [
+            "javascript"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2022",
+        "githubUrl": "https://github.com/NathanLCleary/Newsagent-System",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 8,
-        title: "DevOps Tools Portfolio",
-        category: "professional",
-        description: "CI/CD pipelines, testing frameworks, automation tools, and modern development workflows.",
-        languages: ["python", "javascript"],
-        technologies: ["automation", "ci-cd"],
-        frameworks: ["jenkins", "docker"],
-        status: "showcase",
-        year: "2022-2024",
-        githubUrl: "https://github.com/NathanLCleary/DevOps-Tools-Portfolio",
-        hasDownload: false
-    },
-
-    // Production Applications (5 projects)
-    {
-        id: 9,
-        title: "Raven Messaging System",
-        category: "production",
-        description: "Enterprise messaging platform with real-time communication capabilities between mobile devices and Alexa. Features secure messaging protocols and push notifications.",
-        languages: ["java", "python"],
-        technologies: ["android", "api"],
-        frameworks: ["alexa-skills-kit"],
-        status: "production",
-        year: "2024",
-        githubUrl: "https://github.com/NathanLCleary/Raven-Messaging-System",
-        hasDownload: false
+        "id": 8,
+        "title": "YouTube Auto Uploader Public",
+        "category": "professional",
+        "description": "Download page for YouTube Auto Uploader - Automated video uploading application",
+        "languages": [
+            "javascript"
+        ],
+        "technologies": [
+            "automation"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2025",
+        "githubUrl": "https://github.com/NathanLCleary/YouTube-Auto-Uploader-Public",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 10,
-        title: "JDBC Smart Home System",
-        category: "production",
-        description: "Database-driven home automation system with enterprise architecture. Features device control, scheduling, and comprehensive data management.",
-        languages: ["java"],
-        technologies: ["database", "iot"],
-        frameworks: ["jdbc", "mysql"],
-        status: "production",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/JDBC-Smart-Home-System",
-        hasDownload: false
+        "id": 9,
+        "title": "Java Learning Portfolio",
+        "category": "professional",
+        "description": "Comprehensive Java learning portfolio showcasing progression from fundamentals to enterprise development",
+        "languages": [
+            "java"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2025",
+        "githubUrl": "https://github.com/NathanLCleary/Java-Learning-Portfolio",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 11,
-        title: "Weather App",
-        category: "mobile",
-        description: "Android weather application with API integration and modern UI design. Features location-based forecasts and interactive weather maps.",
-        languages: ["java", "kotlin"],
-        technologies: ["android", "api"],
-        frameworks: ["android-sdk"],
-        status: "production",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/weather-app",
-        hasDownload: false
+        "id": 10,
+        "title": "Python Learning Portfolio",
+        "category": "professional",
+        "description": "Comprehensive Python portfolio showcasing data science, machine learning, GUI development, and software engineering skills",
+        "languages": [
+            "jupyter notebook"
+        ],
+        "technologies": [
+            "machine-learning",
+            "gui"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2025",
+        "githubUrl": "https://github.com/NathanLCleary/Python-Learning-Portfolio",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 12,
-        title: "MerchGeekStore",
-        category: "production",
-        description: "E-commerce platform with inventory management and payment processing. Features shopping cart, user accounts, and admin dashboard.",
-        languages: ["php", "javascript"],
-        technologies: ["web", "database", "e-commerce"],
-        frameworks: ["mysql", "bootstrap"],
-        status: "production",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/MerchGeekStore",
-        hasDownload: false
-    },
-
-    // Web Games & Interactive Projects (12 projects)
-    {
-        id: 13,
-        title: "Rock Paper Scissors Web Game",
-        category: "web-games",
-        description: "Classic game implementation with JavaScript and responsive design. Features smooth animations and score tracking.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["html5", "css3"],
-        status: "academic",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/RockPaperScissors-webGame",
-        hasDownload: false
+        "id": 11,
+        "title": "Weather App",
+        "category": "mobile",
+        "description": "No description available",
+        "languages": [
+            "java"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2023",
+        "githubUrl": "https://github.com/NathanLCleary/weather-app",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 14,
-        title: "Target Game",
-        category: "web-games",
-        description: "Interactive target shooting game with HTML5 Canvas and animation. Features physics-based gameplay and high score system.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["html5-canvas"],
-        status: "academic",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/TargetGame",
-        hasDownload: false
+        "id": 12,
+        "title": "Data Mining",
+        "category": "data-science",
+        "description": "No description available",
+        "languages": [
+            "jupyter notebook"
+        ],
+        "technologies": [
+            "machine-learning"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2023",
+        "githubUrl": "https://github.com/NathanLCleary/Data-Mining",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 15,
-        title: "Memory Game",
-        category: "web-games",
-        description: "Memory matching game with card flip animations and scoring system. Features progressive difficulty and visual effects.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["css3-animations"],
-        status: "academic",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/memoryGame",
-        hasDownload: false
+        "id": 13,
+        "title": "Alexa Skill",
+        "category": "iot",
+        "description": "No description available",
+        "languages": [
+            "python"
+        ],
+        "technologies": [
+            "voice-recognition"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2023",
+        "githubUrl": "https://github.com/NathanLCleary/Alexa-Skill",
+        "hasDownload": false,
+        "featured": false
     },
     {
-        id: 16,
-        title: "Poker Game",
-        category: "web-games",
-        description: "Poker game implementation with hand evaluation and betting mechanics. Features AI opponents and tournament mode.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["game-logic"],
-        status: "academic",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/pokerGame",
-        hasDownload: false
-    },
-    {
-        id: 17,
-        title: "Naughty or Nice",
-        category: "web-games",
-        description: "Christmas-themed interactive application with user input validation. Features festive animations and scoring system.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["html5", "css3"],
-        status: "academic",
-        year: "2022",
-        githubUrl: "https://github.com/NathanLCleary/NaughtyOrNice",
-        hasDownload: false
-    },
-    {
-        id: 18,
-        title: "Lotto Number Generator",
-        category: "web-games",
-        description: "Lottery number generator with random selection algorithms. Features multiple lottery formats and statistics tracking.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["random-algorithms"],
-        status: "academic",
-        year: "2022",
-        githubUrl: "https://github.com/NathanLCleary/lotto",
-        hasDownload: false
-    },
-    {
-        id: 19,
-        title: "Fill the Cup",
-        category: "web-games",
-        description: "Physics-based game with CSS animations and interactive elements. Features fluid dynamics simulation and level progression.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["physics-engine"],
-        status: "academic",
-        year: "2022",
-        githubUrl: "https://github.com/NathanLCleary/fill-the-cup",
-        hasDownload: false
-    },
-    {
-        id: 20,
-        title: "Bucket List App",
-        category: "web-games",
-        description: "Personal goal tracking application with local storage persistence. Features task management and progress visualization.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["local-storage"],
-        status: "academic",
-        year: "2022",
-        githubUrl: "https://github.com/NathanLCleary/bucketList",
-        hasDownload: false
-    },
-    {
-        id: 21,
-        title: "Games Night Platform",
-        category: "web-games",
-        description: "Multi-game platform with various mini-games and score tracking. Features multiplayer support and leaderboards.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["multiplayer"],
-        status: "academic",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/GamesNight1",
-        hasDownload: false
-    },
-    {
-        id: 22,
-        title: "Low FPS Demo",
-        category: "web-games",
-        description: "Performance optimization demonstration with frame rate monitoring. Features various optimization techniques and benchmarking.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web", "optimization"],
-        frameworks: ["performance"],
-        status: "experimental",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/LowFPS",
-        hasDownload: false
-    },
-    {
-        id: 23,
-        title: "Fallout 4 Stats Tracker",
-        category: "web-games",
-        description: "Fallout 4 themed statistics tracker with game-inspired UI design. Features character progression and achievement tracking.",
-        languages: ["javascript", "html-css"],
-        technologies: ["web"],
-        frameworks: ["game-ui"],
-        status: "academic",
-        year: "2023",
-        githubUrl: "https://github.com/NathanLCleary/fallout4Stats",
-        hasDownload: false
+        "id": 14,
+        "title": "Connect4",
+        "category": "game-dev",
+        "description": "No description available",
+        "languages": [
+            "java"
+        ],
+        "technologies": [
+            "cli"
+        ],
+        "frameworks": [],
+        "status": "academic",
+        "year": "2022",
+        "githubUrl": "https://github.com/NathanLCleary/Connect4",
+        "hasDownload": false,
+        "featured": false
     }
 ];
+
 
 // DOM elements
 let projectsContainer;
