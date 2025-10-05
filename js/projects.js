@@ -73,27 +73,9 @@ function getProjectBackgroundImage(projectTitle, category, technologies) {
 const projectsData = [
     {
         "id": 1,
-        "title": "NathanLCleary.Github.Io",
-        "category": "web-dev",
-        "description": "No description available",
-        "languages": [
-            "css"
-        ],
-        "technologies": [
-            "cli"
-        ],
-        "frameworks": [],
-        "status": "academic",
-        "year": "2022",
-        "githubUrl": "https://github.com/NathanLCleary/NathanLCleary.github.io",
-        "hasDownload": false,
-        "featured": false
-    },
-    {
-        "id": 2,
         "title": "Raven Messaging System",
         "category": "production",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "java"
         ],
@@ -101,17 +83,17 @@ const projectsData = [
             "messaging"
         ],
         "frameworks": [],
-        "status": "academic",
+        "status": "production",
         "year": "2023",
         "githubUrl": "https://github.com/NathanLCleary/Raven-Messaging-System",
         "hasDownload": false,
         "featured": false
     },
     {
-        "id": 3,
+        "id": 2,
         "title": "MemoryGame",
         "category": "web-games",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "javascript"
         ],
@@ -126,10 +108,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 4,
+        "id": 3,
         "title": "RockPaperScissors",
         "category": "web-games",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "javascript"
         ],
@@ -144,10 +126,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 5,
+        "id": 4,
         "title": "LuckyNumbersLotto",
         "category": "web-games",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "javascript"
         ],
@@ -162,10 +144,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 6,
+        "id": 5,
         "title": "Gaming Store",
         "category": "web-dev",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "javascript"
         ],
@@ -180,10 +162,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 7,
+        "id": 6,
         "title": "Newsagent System",
         "category": "web-dev",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "javascript"
         ],
@@ -198,7 +180,7 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 8,
+        "id": 7,
         "title": "YouTube Auto Uploader Public",
         "category": "professional",
         "description": "Download page for YouTube Auto Uploader - Automated video uploading application",
@@ -209,14 +191,14 @@ const projectsData = [
             "automation"
         ],
         "frameworks": [],
-        "status": "academic",
+        "status": "production",
         "year": "2025",
         "githubUrl": "https://github.com/NathanLCleary/YouTube-Auto-Uploader-Public",
         "hasDownload": false,
         "featured": false
     },
     {
-        "id": 9,
+        "id": 8,
         "title": "Java Learning Portfolio",
         "category": "professional",
         "description": "Comprehensive Java learning portfolio showcasing progression from fundamentals to enterprise development",
@@ -234,7 +216,7 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 10,
+        "id": 9,
         "title": "Python Learning Portfolio",
         "category": "professional",
         "description": "Comprehensive Python portfolio showcasing data science, machine learning, GUI development, and software engineering skills",
@@ -253,10 +235,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 11,
+        "id": 10,
         "title": "Weather App",
         "category": "mobile",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "java"
         ],
@@ -264,17 +246,17 @@ const projectsData = [
             "cli"
         ],
         "frameworks": [],
-        "status": "academic",
+        "status": "production",
         "year": "2023",
         "githubUrl": "https://github.com/NathanLCleary/weather-app",
         "hasDownload": false,
         "featured": false
     },
     {
-        "id": 12,
+        "id": 11,
         "title": "Data Mining",
         "category": "data-science",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "jupyter notebook"
         ],
@@ -289,10 +271,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 13,
+        "id": 12,
         "title": "Alexa Skill",
         "category": "iot",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "python"
         ],
@@ -307,10 +289,10 @@ const projectsData = [
         "featured": false
     },
     {
-        "id": 14,
+        "id": 13,
         "title": "Connect4",
         "category": "game-dev",
-        "description": "No description available",
+        "description": "Professional software development project",
         "languages": [
             "java"
         ],
