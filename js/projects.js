@@ -69,6 +69,13 @@ function getProjectBackgroundImage(projectTitle, category, technologies) {
     return selectedCollection[imageIndex];
 }
 
+// HTML escaping function to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // Project data updated daily by GitHub Actions
 const projectsData = [
     {
@@ -362,34 +369,34 @@ function renderProjects(projects) {
 function createProjectCard(project) {
     const featuredClass = project.featured ? 'featured' : '';
     const downloadButton = project.hasDownload 
-        ? `<a href="${project.downloadUrl}" class="project-link primary" target="_blank">Download</a>`
+        ? `<a href="${escapeHtml(project.downloadUrl)}" class="project-link primary" target="_blank">Download</a>`
         : `<span class="project-link disabled">No Download</span>`;
 
     return `
-        <div class="project-card ${featuredClass}" data-category="${project.category}" data-languages="${project.languages.join(',')}" data-technologies="${project.technologies.join(',')}" data-status="${project.status}">
+        <div class="project-card ${featuredClass}" data-category="${escapeHtml(project.category)}" data-languages="${project.languages.map(escapeHtml).join(',')}" data-technologies="${project.technologies.map(escapeHtml).join(',')}" data-status="${escapeHtml(project.status)}">
             <div class="project-card-header" style="background-image: url('${getProjectBackgroundImage(project.title, project.category, project.technologies)}'); background-size: cover; background-position: center; position: relative;">
                 <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(249, 134, 26, 0.9) 0%, rgba(29, 27, 55, 0.8) 100%);"></div>
                 <div style="position: relative; z-index: 2;">
-                    <h3 class="project-title">${project.title}</h3>
-                    <div class="project-category">${getCategoryDisplayName(project.category)}</div>
+                    <h3 class="project-title">${escapeHtml(project.title)}</h3>
+                    <div class="project-category">${escapeHtml(getCategoryDisplayName(project.category))}</div>
                 </div>
             </div>
             <div class="project-card-body">
-                <p class="project-description">${project.description}</p>
+                <p class="project-description">${escapeHtml(project.description)}</p>
                 
                 <div class="project-tags">
-                    ${project.languages.map(lang => `<span class="project-tag language">${getLanguageDisplayName(lang)}</span>`).join('')}
-                    ${project.technologies.map(tech => `<span class="project-tag technology">${getTechnologyDisplayName(tech)}</span>`).join('')}
-                    ${project.frameworks.map(fw => `<span class="project-tag framework">${fw}</span>`).join('')}
+                    ${project.languages.map(lang => `<span class="project-tag language">${escapeHtml(getLanguageDisplayName(lang))}</span>`).join('')}
+                    ${project.technologies.map(tech => `<span class="project-tag technology">${escapeHtml(getTechnologyDisplayName(tech))}</span>`).join('')}
+                    ${project.frameworks.map(fw => `<span class="project-tag framework">${escapeHtml(fw)}</span>`).join('')}
                 </div>
                 
                 <div class="project-meta">
-                    <span class="project-status ${project.status}">${getStatusDisplayName(project.status)}</span>
-                    <span class="project-year">${project.year}</span>
+                    <span class="project-status ${escapeHtml(project.status)}">${escapeHtml(getStatusDisplayName(project.status))}</span>
+                    <span class="project-year">${escapeHtml(project.year)}</span>
                 </div>
                 
                 <div class="project-actions">
-                    <a href="${project.githubUrl}" class="project-link secondary" target="_blank">View Code</a>
+                    <a href="${escapeHtml(project.githubUrl)}" class="project-link secondary" target="_blank">View Code</a>
                     ${downloadButton}
                 </div>
             </div>

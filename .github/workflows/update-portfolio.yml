@@ -40,20 +40,28 @@ jobs:
           const lines = readme.split('\\n');
           let inMetadataTable = false;
           
-          for (const line of lines) {
-            if (line.includes('**PROJECT METADATA**')) {
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            
+            if (line.includes('**PROJECT METADATA**') || line.includes('PROJECT METADATA')) {
               inMetadataTable = true;
               continue;
             }
-            if (inMetadataTable && line.includes('---')) break;
-            if (inMetadataTable && line.includes('|')) {
+            
+            if (inMetadataTable && (line.includes('---') || line.includes('===') || line.includes('**KEY FEATURES**'))) {
+              break;
+            }
+            
+            if (inMetadataTable && line.includes('|') && line.includes('**')) {
               const match = line.match(/\\|\\s*\\*\\*([^*]+)\\*\\*\\s*\\|\\s*([^|]+)\\s*\\|/);
               if (match) {
                 const key = match[1].trim().toLowerCase();
                 let value = match[2].trim();
                 
                 // Skip empty or placeholder values
-                if (!value || value.startsWith('[') || value === 'none' || value === 'N/A') continue;
+                if (!value || value.startsWith('[') || value === 'none' || value === 'N/A' || value === '---') continue;
+                
+                console.log(\`Found metadata: \${key} = \${value}\`);
                 
                 switch (key) {
                   case 'category': 
@@ -81,87 +89,27 @@ jobs:
                     metadata.hasDownload = value.toLowerCase() === 'true'; 
                     break;
                   case 'downloadurl': 
-                    if (value && !value.startsWith('[')) metadata.downloadUrl = value; 
+                    if (value && !value.startsWith('[') && value !== 'none') metadata.downloadUrl = value; 
                     break;
                 }
               }
             }
           }
           
-          return Object.keys(metadata).length > 0 ? metadata : null;
+          const result = Object.keys(metadata).length > 0 ? metadata : null;
+          if (result) {
+            console.log(\`Parsed metadata for repo: \${JSON.stringify(result)}\`);
+          }
+          return result;
         }
         
         function categorizeRepository(repo) {
-          const name = repo.name.toLowerCase();
-          const desc = (repo.description || '').toLowerCase();
-          const content = \`\${name} \${desc}\`;
-          
-          // Professional portfolios
-          if (name.includes('portfolio') || name.includes('showcase')) return 'professional';
-          
-          // Production applications
-          if (name.includes('youtube-auto-uploader') || name.includes('raven-messaging') || 
-              name.includes('smart-home') || name.includes('weather-app') || name.includes('merchgeek')) {
-            return 'production';
-          }
-          
-          // Web games and interactive projects
-          if (name.includes('game') || name.includes('lotto') || name.includes('poker') || 
-              name.includes('memory') || name.includes('target') || name.includes('rock') ||
-              name.includes('bucket') || name.includes('naughty') || name.includes('fill')) {
-            return 'web-games';
-          }
-          
-          // Mobile development
-          if (name.includes('android') || content.includes('mobile')) return 'mobile';
-          
-          // IoT and hardware
-          if (name.includes('arduino') || name.includes('iot') || name.includes('raspberry') ||
-              name.includes('darkpaw') || name.includes('mqtt') || content.includes('sensor')) {
-            return 'iot';
-          }
-          
-          // Data science
-          if (name.includes('data') || name.includes('mining') || name.includes('analysis') ||
-              content.includes('machine learning') || content.includes('jupyter')) {
-            return 'data-science';
-          }
-          
-          // Game development (Unity, etc.)
-          if (name.includes('unity') || name.includes('connect4') || content.includes('unity')) {
-            return 'game-dev';
-          }
-          
-          // Web development
-          if (name.includes('web') || name.includes('portfolio') || name.includes('eportfolio') ||
-              name.includes('cartrader') || name.includes('affiliate') || name.includes('newsagent')) {
-            return 'web-dev';
-          }
-          
           return 'academic';
         }
         
         function extractTechnologies(repo) {
-          const content = \`\${repo.name} \${repo.description || ''}\`.toLowerCase();
-          const technologies = [];
-          
-          // Core technologies
-          if (content.includes('android')) technologies.push('android');
-          if (content.includes('web') || content.includes('html') || content.includes('css')) technologies.push('web');
-          if (content.includes('database') || content.includes('sql') || content.includes('jdbc')) technologies.push('database');
-          if (content.includes('api') || content.includes('rest')) technologies.push('api');
-          if (content.includes('unity') || content.includes('game')) technologies.push('3d-graphics');
-          if (content.includes('arduino') || content.includes('iot') || content.includes('raspberry')) technologies.push('iot');
-          if (content.includes('machine') || content.includes('data') || content.includes('mining')) technologies.push('machine-learning');
-          if (content.includes('gui') || content.includes('desktop')) technologies.push('gui');
-          if (content.includes('messaging') || content.includes('raven')) technologies.push('messaging');
-          if (content.includes('automation') || content.includes('uploader')) technologies.push('automation');
-          if (content.includes('sensor') || content.includes('smart')) technologies.push('sensors');
-          if (content.includes('alexa') || content.includes('voice')) technologies.push('voice-recognition');
-          if (content.includes('responsive') || content.includes('mobile')) technologies.push('responsive');
-          if (content.includes('e-commerce') || content.includes('store') || content.includes('trading')) technologies.push('e-commerce');
-          
-          return technologies.length > 0 ? technologies : ['cli'];
+          // Only use as fallback if no README metadata exists
+          return ['General'];
         }
         
         (async () => {
@@ -177,11 +125,14 @@ jobs:
               let readme = null;
               try {
                 const readmeData = await fetchWithAuth(\`https://api.github.com/repos/NathanLCleary/\${repo.name}/readme\`, process.env.GITHUB_TOKEN);
-                if (readmeData && readmeData.content) {
+                if (readmeData && readmeData.content && !readmeData.message) {
                   readme = Buffer.from(readmeData.content, 'base64').toString('utf-8');
+                  console.log(\`Successfully read README for \${repo.name}\`);
+                } else {
+                  console.log(\`README not found or empty for \${repo.name}\`);
                 }
               } catch (e) {
-                console.log(\`No README found for \${repo.name}\`);
+                console.log(\`Error fetching README for \${repo.name}: \${e.message}\`);
               }
               
               const metadata = parseReadmeMetadata(readme);
@@ -196,16 +147,20 @@ jobs:
                   if (title.includes('Ui')) title = title.replace('Ui', 'UI');
                   return title;
                 })(),
-                category: metadata?.category || categorizeRepository(repo),
+                category: metadata?.category || 'Personal',
                 description: repo.description || 'Professional software development project',
-                languages: (metadata?.languages && metadata.languages.length > 0) ? metadata.languages : [repo.language?.toLowerCase() || 'javascript'].filter(l => l),
+                languages: (metadata?.languages && metadata.languages.length > 0) ? metadata.languages : (() => {
+                  let lang = repo.language?.toLowerCase() || 'javascript';
+                  if (lang === 'jupyter notebook') lang = 'python';
+                  return [lang];
+                })(),
                 technologies: (metadata?.technologies && metadata.technologies.length > 0) ? metadata.technologies : extractTechnologies(repo),
                 frameworks: (metadata?.frameworks && metadata.frameworks.length > 0) ? metadata.frameworks : repo.topics || [],
-                status: metadata?.status || (categorizeRepository(repo) === 'production' ? 'production' : 'academic'),
+                status: metadata?.status || 'Personal',
                 year: metadata?.year || new Date(repo.created_at).getFullYear().toString(),
                 githubUrl: repo.html_url,
                 hasDownload: metadata?.hasDownload === true,
-                featured: metadata?.featured === true || repo.stargazers_count > 3 || repo.name.includes('portfolio')
+                featured: metadata?.featured === true || repo.stargazers_count > 3
               };
               
               // Handle download URLs
