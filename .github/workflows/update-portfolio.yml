@@ -40,19 +40,24 @@ jobs:
           const lines = readme.split('\\n');
           let inMetadataTable = false;
           
+          console.log(`Parsing README with ${lines.length} lines`);
+          
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             
-            if (line.includes('**PROJECT METADATA**') || line.includes('PROJECT METADATA')) {
+            if (line.includes('PROJECT METADATA') || line.includes('METADATA')) {
               inMetadataTable = true;
+              console.log(`Found metadata table at line ${i + 1}: ${line.trim()}`);
               continue;
             }
             
             if (inMetadataTable && (line.includes('---') || line.includes('===') || line.includes('**KEY FEATURES**'))) {
+              console.log(`End of metadata table at line ${i + 1}: ${line.trim()}`);
               break;
             }
             
             if (inMetadataTable && line.includes('|') && line.includes('**')) {
+              console.log(`Processing metadata line ${i + 1}: ${line.trim()}`);}
               const match = line.match(/\\|\\s*\\*\\*([^*]+)\\*\\*\\s*\\|\\s*([^|]+)\\s*\\|/);
               if (match) {
                 const key = match[1].trim().toLowerCase();
@@ -86,12 +91,15 @@ jobs:
                     metadata.featured = value.toLowerCase() === 'true'; 
                     break;
                   case 'hasdownload': 
+                    console.log(`Processing hasDownload: ${value}`);
                     metadata.hasDownload = value.toLowerCase() === 'true'; 
                     break;
                   case 'downloadurl': 
+                    console.log(`Processing downloadUrl: ${value}`);
                     if (value && !value.startsWith('[') && value !== 'none') metadata.downloadUrl = value; 
                     break;
                   case 'previewurl': 
+                    console.log(`Processing previewUrl: ${value}`);
                     if (value && !value.startsWith('[') && value !== 'none') metadata.previewUrl = value; 
                     break;
                 }
@@ -117,13 +125,20 @@ jobs:
         
         (async () => {
           try {
+            console.log('=== STARTING PORTFOLIO UPDATE ===');
             const repos = await fetchWithAuth('https://api.github.com/users/NathanLCleary/repos?per_page=100&sort=updated', process.env.GITHUB_TOKEN);
+            console.log(`Fetched ${repos.length} total repositories`);
+            
             const publicRepos = repos.filter(repo => !repo.fork && !repo.private && repo.name !== 'NathanLCleary.github.io');
+            console.log(`Filtered to ${publicRepos.length} public repositories (excluding portfolio repo)`);
+            console.log(`Repository names: ${publicRepos.map(r => r.name).join(', ')}`);
             
             const projects = [];
             
             for (let i = 0; i < publicRepos.length; i++) {
               const repo = publicRepos[i];
+              console.log(`\n--- Processing Repository ${i + 1}/${publicRepos.length}: ${repo.name} ---`);
+              console.log(`Repo details: language=${repo.language}, stars=${repo.stargazers_count}, created=${repo.created_at}`);
               
               let readme = null;
               try {
@@ -139,6 +154,11 @@ jobs:
               }
               
               const metadata = parseReadmeMetadata(readme);
+              if (metadata) {
+                console.log(`✓ Metadata found: ${JSON.stringify(metadata, null, 2)}`);
+              } else {
+                console.log('✗ No metadata found in README');
+              }
               
               const project = {
                 id: i + 1,
@@ -166,27 +186,45 @@ jobs:
                 featured: metadata?.featured === true || repo.stargazers_count > 3
               };
               
+              console.log(`Project created for ${repo.name}:`);
+              console.log(`  - Category: ${project.category} (from metadata: ${metadata?.category || 'none'})`);
+              console.log(`  - Status: ${project.status} (from metadata: ${metadata?.status || 'none'})`);
+              console.log(`  - Languages: ${JSON.stringify(project.languages)} (from metadata: ${JSON.stringify(metadata?.languages) || 'none'})`);
+              console.log(`  - Technologies: ${JSON.stringify(project.technologies)} (from metadata: ${JSON.stringify(metadata?.technologies) || 'none'})`);
+              console.log(`  - HasDownload: ${project.hasDownload} (from metadata: ${metadata?.hasDownload})`);
+              console.log(`  - Featured: ${project.featured} (from metadata: ${metadata?.featured})`);
+              
               // Handle download/preview URLs
+              console.log(`URL Processing for ${repo.name}:`);
+              console.log(`  - hasDownload: ${project.hasDownload}`);
+              console.log(`  - metadata.downloadUrl: ${metadata?.downloadUrl || 'none'}`);
+              console.log(`  - metadata.previewUrl: ${metadata?.previewUrl || 'none'}`);
+              
               if (project.hasDownload) {
                 if (metadata?.downloadUrl && metadata.downloadUrl !== 'none') {
-                  // App download link
+                  console.log(`  → Using downloadUrl: ${metadata.downloadUrl}`);
                   if (metadata.downloadUrl.startsWith('http')) {
                     project.downloadUrl = metadata.downloadUrl;
+                    console.log(`  → Set as direct URL: ${project.downloadUrl}`);
                   } else {
                     project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
+                    console.log(`  → Set as GitHub releases: ${project.downloadUrl}`);
                   }
                 } else if (metadata?.previewUrl && metadata.previewUrl !== 'none') {
-                  // Website preview link
+                  console.log(`  → Using previewUrl: ${metadata.previewUrl}`);
                   if (metadata.previewUrl.startsWith('http')) {
                     project.downloadUrl = metadata.previewUrl;
+                    console.log(`  → Set as direct URL: ${project.downloadUrl}`);
                   } else {
-                    // GitHub Pages URL
                     project.downloadUrl = \`https://nathanlcleary.github.io/\${metadata.previewUrl}\`;
+                    console.log(`  → Set as GitHub Pages: ${project.downloadUrl}`);
                   }
                 } else {
-                  // Fallback to GitHub releases
                   project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
+                  console.log(`  → Fallback to GitHub releases: ${project.downloadUrl}`);
                 }
+              } else {
+                console.log(`  → No download URL (hasDownload is false)`);
               }
               
               projects.push(project);
@@ -201,6 +239,10 @@ jobs:
             
             fs.writeFileSync('js/projects.js', newContent);
             
+            console.log('\n=== PORTFOLIO UPDATE COMPLETE ===');
+            console.log(\`Total projects processed: \${projects.length}\`);
+            console.log('Projects with downloads:', projects.filter(p => p.hasDownload).map(p => p.title));
+            console.log('Projects with URLs:', projects.filter(p => p.downloadUrl).map(p => \`\${p.title}: \${p.downloadUrl}\`));
             console.log(\`Updated portfolio with \${projects.length} projects\`);
           } catch (error) {
             console.error('Error:', error);
