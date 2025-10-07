@@ -84,17 +84,24 @@ const projectsData = [
         "category": "web-games",
         "description": "Classic Rock Paper Scissors game implementation with JavaScript and responsive design. Features interactive gameplay, score tracking, and smooth animations for an engaging user experience.",
         "languages": [
-            "javascript"
+            "javascript",
+            "html-css"
         ],
         "technologies": [
-            "General"
+            "web",
+            "gui",
+            "responsive"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2025",
+        "frameworks": [
+            "vanilla-js",
+            "css3"
+        ],
+        "status": "production",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/RockPaperScissors",
-        "hasDownload": false,
-        "featured": false
+        "hasDownload": true,
+        "featured": true,
+        "downloadUrl": "https://nathanlcleary.github.io/RockPaperScissors"
     },
     {
         "id": 2,
@@ -102,17 +109,23 @@ const projectsData = [
         "category": "web-games",
         "description": "Interactive color sequence memory game with progressive difficulty levels and visual feedback. Features three difficulty modes, countdown timers, persistent high scores, and modern UI with smooth animations.",
         "languages": [
+            "html-css",
             "javascript"
         ],
         "technologies": [
-            "General"
+            "web",
+            "responsive",
+            "gui"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2025",
+        "frameworks": [
+            "vanilla-js"
+        ],
+        "status": "showcase",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/memoryGame",
-        "hasDownload": false,
-        "featured": false
+        "hasDownload": true,
+        "featured": true,
+        "downloadUrl": "https://nathanlcleary.github.io/memoryGame"
     },
     {
         "id": 3,
@@ -120,17 +133,24 @@ const projectsData = [
         "category": "web-games",
         "description": "Interactive lottery game with number selection mechanics and winning combination validation. Features multiple game modes, prize calculation system, and engaging gameplay with realistic lottery simulation and score tracking.",
         "languages": [
-            "javascript"
+            "javascript",
+            "html-css"
         ],
         "technologies": [
-            "General"
+            "web",
+            "gui",
+            "responsive"
         ],
-        "frameworks": [],
-        "status": "Personal",
+        "frameworks": [
+            "vanilla-js",
+            "css3"
+        ],
+        "status": "production",
         "year": "2025",
         "githubUrl": "https://github.com/NathanLCleary/LuckyNumbersLotto",
-        "hasDownload": false,
-        "featured": false
+        "hasDownload": true,
+        "featured": true,
+        "downloadUrl": "https://nathanlcleary.github.io/LuckyNumbersLotto"
     },
     {
         "id": 4,
@@ -141,11 +161,14 @@ const projectsData = [
             "python"
         ],
         "technologies": [
-            "General"
+            "voice-recognition",
+            "api"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2023",
+        "frameworks": [
+            "alexa-skills-kit"
+        ],
+        "status": "academic",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/Alexa-Skill",
         "hasDownload": false,
         "featured": false
@@ -159,10 +182,14 @@ const projectsData = [
             "python"
         ],
         "technologies": [
-            "General"
+            "machine-learning",
+            "data-science"
         ],
-        "frameworks": [],
-        "status": "Personal",
+        "frameworks": [
+            "scikit-learn",
+            "pandas"
+        ],
+        "status": "academic",
         "year": "2023",
         "githubUrl": "https://github.com/NathanLCleary/Data-Mining",
         "hasDownload": false,
@@ -174,13 +201,17 @@ const projectsData = [
         "category": "mobile",
         "description": "Android weather application with API integration and modern UI design. Features location-based forecasts, real-time weather data, interactive weather maps, and responsive mobile interface for comprehensive weather tracking.",
         "languages": [
-            "java"
+            "java",
+            "kotlin"
         ],
         "technologies": [
-            "General"
+            "android",
+            "api"
         ],
-        "frameworks": [],
-        "status": "Personal",
+        "frameworks": [
+            "android-sdk"
+        ],
+        "status": "production",
         "year": "2023",
         "githubUrl": "https://github.com/NathanLCleary/weather-app",
         "hasDownload": false,
@@ -195,10 +226,12 @@ const projectsData = [
             "java"
         ],
         "technologies": [
-            "General"
+            "gui"
         ],
-        "frameworks": [],
-        "status": "Personal",
+        "frameworks": [
+            "swing"
+        ],
+        "status": "academic",
         "year": "2022",
         "githubUrl": "https://github.com/NathanLCleary/Connect4",
         "hasDownload": false,
@@ -210,14 +243,19 @@ const projectsData = [
         "category": "production",
         "description": "Enterprise messaging platform with real-time communication capabilities between mobile devices and Alexa. Features secure messaging protocols, push notifications, and cross-platform integration for seamless voice and mobile connectivity.",
         "languages": [
-            "java"
+            "java",
+            "python"
         ],
         "technologies": [
-            "General"
+            "android",
+            "messaging",
+            "voice-recognition"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2023",
+        "frameworks": [
+            "alexa-skills-kit"
+        ],
+        "status": "production",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/Raven-Messaging-System",
         "hasDownload": false,
         "featured": false
@@ -228,14 +266,20 @@ const projectsData = [
         "category": "web-dev",
         "description": "Professional software development project",
         "languages": [
-            "javascript"
+            "php",
+            "html-css",
+            "sql"
         ],
         "technologies": [
-            "General"
+            "web",
+            "e-commerce",
+            "database"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2022",
+        "frameworks": [
+            "mysql"
+        ],
+        "status": "academic",
+        "year": "2023",
         "githubUrl": "https://github.com/NathanLCleary/Gaming-Store",
         "hasDownload": false,
         "featured": false
@@ -246,14 +290,17 @@ const projectsData = [
         "category": "web-dev",
         "description": "Professional software development project",
         "languages": [
-            "javascript"
+            "java"
         ],
         "technologies": [
-            "General"
+            "cli",
+            "database"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2022",
+        "frameworks": [
+            "jdbc"
+        ],
+        "status": "academic",
+        "year": "2023",
         "githubUrl": "https://github.com/NathanLCleary/Newsagent-System",
         "hasDownload": false,
         "featured": false
@@ -264,17 +311,22 @@ const projectsData = [
         "category": "professional",
         "description": "Download page for YouTube Auto Uploader - Automated video uploading application",
         "languages": [
-            "javascript"
+            "python"
         ],
         "technologies": [
-            "General"
+            "gui",
+            "api",
+            "automation"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2025",
+        "frameworks": [
+            "tkinter"
+        ],
+        "status": "showcase",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/YouTube-Auto-Uploader-Public",
-        "hasDownload": false,
-        "featured": false
+        "hasDownload": true,
+        "featured": true,
+        "downloadUrl": "https://github.com/NathanLCleary/YouTube-Auto-Uploader-Public/releases/latest"
     },
     {
         "id": 12,
@@ -285,11 +337,16 @@ const projectsData = [
             "java"
         ],
         "technologies": [
-            "General"
+            "database",
+            "gui",
+            "api"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2025",
+        "frameworks": [
+            "jdbc",
+            "jpa"
+        ],
+        "status": "showcase",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/Java-Learning-Portfolio",
         "hasDownload": false,
         "featured": false
@@ -303,11 +360,16 @@ const projectsData = [
             "python"
         ],
         "technologies": [
-            "General"
+            "machine-learning",
+            "gui",
+            "data-science"
         ],
-        "frameworks": [],
-        "status": "Personal",
-        "year": "2025",
+        "frameworks": [
+            "jupyter",
+            "pandas"
+        ],
+        "status": "showcase",
+        "year": "2024",
         "githubUrl": "https://github.com/NathanLCleary/Python-Learning-Portfolio",
         "hasDownload": false,
         "featured": false
