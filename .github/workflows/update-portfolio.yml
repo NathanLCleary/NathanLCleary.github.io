@@ -211,26 +211,31 @@ jobs:
                   console.log('  → Using downloadUrl: ' + metadata.downloadUrl);
                   if (metadata.downloadUrl.startsWith('http')) {
                     project.downloadUrl = metadata.downloadUrl;
-                    console.log('  → Set as direct URL: ' + project.downloadUrl);
+                    console.log('  → Set downloadUrl as direct URL: ' + project.downloadUrl);
                   } else {
                     project.downloadUrl = repo.html_url + '/releases/latest';
-                    console.log('  → Set as GitHub releases: ' + project.downloadUrl);
+                    console.log('  → Set downloadUrl as GitHub releases: ' + project.downloadUrl);
                   }
-                } else if (metadata?.previewUrl && metadata.previewUrl !== 'none') {
+                }
+                
+                if (metadata?.previewUrl && metadata.previewUrl !== 'none') {
                   console.log('  → Using previewUrl: ' + metadata.previewUrl);
                   if (metadata.previewUrl.startsWith('http')) {
-                    project.downloadUrl = metadata.previewUrl;
-                    console.log('  → Set as direct URL: ' + project.downloadUrl);
+                    project.previewUrl = metadata.previewUrl;
+                    console.log('  → Set previewUrl as direct URL: ' + project.previewUrl);
                   } else {
-                    project.downloadUrl = 'https://nathanlcleary.github.io/' + metadata.previewUrl;
-                    console.log('  → Set as GitHub Pages: ' + project.downloadUrl);
+                    project.previewUrl = 'https://nathanlcleary.github.io/' + metadata.previewUrl;
+                    console.log('  → Set previewUrl as GitHub Pages: ' + project.previewUrl);
                   }
-                } else {
+                }
+                
+                // Fallback if hasDownload is true but no URLs provided
+                if (!project.downloadUrl && !project.previewUrl) {
                   project.downloadUrl = repo.html_url + '/releases/latest';
                   console.log('  → Fallback to GitHub releases: ' + project.downloadUrl);
                 }
               } else {
-                console.log('  → No download URL (hasDownload is false)');
+                console.log('  → No URLs (hasDownload is false)');
               }
               
               projects.push(project);
@@ -248,7 +253,8 @@ jobs:
             console.log('\\n=== PORTFOLIO UPDATE COMPLETE ===');
             console.log('Total projects processed: ' + projects.length);
             console.log('Projects with downloads:', projects.filter(p => p.hasDownload).map(p => p.title));
-            console.log('Projects with URLs:', projects.filter(p => p.downloadUrl).map(p => p.title + ': ' + p.downloadUrl));
+            console.log('Projects with downloadUrl:', projects.filter(p => p.downloadUrl).map(p => p.title + ': ' + p.downloadUrl));
+            console.log('Projects with previewUrl:', projects.filter(p => p.previewUrl).map(p => p.title + ': ' + p.previewUrl));
             console.log('Updated portfolio with ' + projects.length + ' projects');
           } catch (error) {
             console.error('Error:', error);

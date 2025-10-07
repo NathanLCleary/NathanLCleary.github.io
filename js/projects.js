@@ -101,7 +101,7 @@ const projectsData = [
         "githubUrl": "https://github.com/NathanLCleary/RockPaperScissors",
         "hasDownload": true,
         "featured": true,
-        "downloadUrl": "https://nathanlcleary.github.io/RockPaperScissors"
+        "previewUrl": "https://nathanlcleary.github.io/RockPaperScissors"
     },
     {
         "id": 2,
@@ -125,7 +125,7 @@ const projectsData = [
         "githubUrl": "https://github.com/NathanLCleary/memoryGame",
         "hasDownload": true,
         "featured": true,
-        "downloadUrl": "https://nathanlcleary.github.io/memoryGame"
+        "previewUrl": "https://nathanlcleary.github.io/memoryGame"
     },
     {
         "id": 3,
@@ -150,7 +150,7 @@ const projectsData = [
         "githubUrl": "https://github.com/NathanLCleary/LuckyNumbersLotto",
         "hasDownload": true,
         "featured": true,
-        "downloadUrl": "https://nathanlcleary.github.io/LuckyNumbersLotto"
+        "previewUrl": "https://nathanlcleary.github.io/LuckyNumbersLotto"
     },
     {
         "id": 4,
@@ -421,17 +421,41 @@ function renderProjects(projects) {
         return;
     }
 
+    // Sort projects: downloads/previews first, then by year (most recent first)
+    const sortedProjects = [...projects].sort((a, b) => {
+        const aHasUrl = !!(a.downloadUrl || a.previewUrl);
+        const bHasUrl = !!(b.downloadUrl || b.previewUrl);
+        
+        if (aHasUrl !== bHasUrl) {
+            return bHasUrl ? 1 : -1; // Downloads first
+        }
+        
+        return parseInt(b.year) - parseInt(a.year); // Most recent first
+    });
+    
+    // Only mark the first project as featured
+    const projectsWithFeatured = sortedProjects.map((project, index) => ({
+        ...project,
+        featured: index === 0
+    }));
+
     projectsContainer.style.display = 'grid';
     noResultsDiv.style.display = 'none';
 
-    projectsContainer.innerHTML = projects.map(project => createProjectCard(project)).join('');
+    projectsContainer.innerHTML = projectsWithFeatured.map(project => createProjectCard(project)).join('');
 }
 
 function createProjectCard(project) {
     const featuredClass = project.featured ? 'featured' : '';
-    const downloadButton = project.hasDownload 
-        ? `<a href="${escapeHtml(project.downloadUrl)}" class="project-link primary" target="_blank">Download</a>`
-        : `<span class="project-link disabled">No Download</span>`;
+    
+    let actionButton;
+    if (project.downloadUrl) {
+        actionButton = `<a href="${escapeHtml(project.downloadUrl)}" class="project-link primary" target="_blank">Download</a>`;
+    } else if (project.previewUrl) {
+        actionButton = `<a href="${escapeHtml(project.previewUrl)}" class="project-link primary" target="_blank">Preview</a>`;
+    } else {
+        actionButton = `<span class="project-link disabled">No Download</span>`;
+    }
 
     return `
         <div class="project-card ${featuredClass}" data-category="${escapeHtml(project.category)}" data-languages="${project.languages.map(escapeHtml).join(',')}" data-technologies="${project.technologies.map(escapeHtml).join(',')}" data-status="${escapeHtml(project.status)}">
@@ -458,7 +482,7 @@ function createProjectCard(project) {
                 
                 <div class="project-actions">
                     <a href="${escapeHtml(project.githubUrl)}" class="project-link secondary" target="_blank">View Code</a>
-                    ${downloadButton}
+                    ${actionButton}
                 </div>
             </div>
         </div>

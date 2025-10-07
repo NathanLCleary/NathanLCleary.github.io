@@ -116,7 +116,15 @@ This is part of Nathan Cleary's portfolio. Feel free to fork and adapt for educa
 
 ## 📊 **VERSION HISTORY**
 
-### **v2.2.0 (Current) - 5 October 2025** - Automated Portfolio Updates
+### **v2.3.0 (Current) - 7 October 2025** - Enhanced Project Management
+- Added: Separate downloadUrl and previewUrl fields for better button handling
+- Added: Smart project sorting (downloads first, then by date)
+- Added: Single featured project display (full-width)
+- Improved: Workflow to handle both download and preview URLs
+- Improved: Project library organization and prioritization
+- Fixed: Button text now shows "Download" for apps and "Preview" for websites
+
+### **v2.2.0 - 5 October 2025** - Automated Portfolio Updates
 - Added: Automated portfolio update workflow
 - Added: GitHub Actions integration for daily updates
 - Added: Enhanced metadata parsing and project categorization
