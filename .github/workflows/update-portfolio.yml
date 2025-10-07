@@ -51,9 +51,15 @@ jobs:
               continue;
             }
             
-            if (inMetadataTable && (line.includes('---') || line.includes('===') || line.includes('**KEY FEATURES**'))) {
+            if (inMetadataTable && (line.includes('===') || line.includes('**KEY FEATURES**'))) {
               console.log('End of metadata table at line ' + (i + 1) + ': ' + line.trim());
               break;
+            }
+            
+            // Skip table separator line
+            if (inMetadataTable && line.includes('---')) {
+              console.log('Skipping table separator at line ' + (i + 1));
+              continue;
             }
             
             if (inMetadataTable && line.includes('|') && line.includes('**')) {
