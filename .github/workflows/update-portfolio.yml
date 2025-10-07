@@ -91,6 +91,9 @@ jobs:
                   case 'downloadurl': 
                     if (value && !value.startsWith('[') && value !== 'none') metadata.downloadUrl = value; 
                     break;
+                  case 'previewurl': 
+                    if (value && !value.startsWith('[') && value !== 'none') metadata.previewUrl = value; 
+                    break;
                 }
               }
             }
@@ -163,17 +166,27 @@ jobs:
                 featured: metadata?.featured === true || repo.stargazers_count > 3
               };
               
-              // Handle download URLs
-              if (project.hasDownload && metadata?.downloadUrl && metadata.downloadUrl !== 'none') {
-                if (metadata.downloadUrl.startsWith('http')) {
-                  project.downloadUrl = metadata.downloadUrl;
+              // Handle download/preview URLs
+              if (project.hasDownload) {
+                if (metadata?.downloadUrl && metadata.downloadUrl !== 'none') {
+                  // App download link
+                  if (metadata.downloadUrl.startsWith('http')) {
+                    project.downloadUrl = metadata.downloadUrl;
+                  } else {
+                    project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
+                  }
+                } else if (metadata?.previewUrl && metadata.previewUrl !== 'none') {
+                  // Website preview link
+                  if (metadata.previewUrl.startsWith('http')) {
+                    project.downloadUrl = metadata.previewUrl;
+                  } else {
+                    // GitHub Pages URL
+                    project.downloadUrl = \`https://nathanlcleary.github.io/\${metadata.previewUrl}\`;
+                  }
                 } else {
-                  // GitHub Pages URL
-                  project.downloadUrl = \`https://nathanlcleary.github.io/\${metadata.downloadUrl}\`;
+                  // Fallback to GitHub releases
+                  project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
                 }
-              } else if (project.hasDownload) {
-                // If hasDownload is true but no URL, use GitHub releases
-                project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
               }
               
               projects.push(project);
