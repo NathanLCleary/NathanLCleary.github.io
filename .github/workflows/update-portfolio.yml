@@ -26,7 +26,7 @@ jobs:
         async function fetchWithAuth(url, token) {
           const response = await fetch(url, {
             headers: {
-              'Authorization': \`token \${token}\`,
+              'Authorization': 'token ' + token,
               'Accept': 'application/vnd.github.v3+json'
             }
           });
@@ -40,24 +40,24 @@ jobs:
           const lines = readme.split('\\n');
           let inMetadataTable = false;
           
-          console.log(`Parsing README with ${lines.length} lines`);
+          console.log('Parsing README with ' + lines.length + ' lines');
           
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             
             if (line.includes('PROJECT METADATA') || line.includes('METADATA')) {
               inMetadataTable = true;
-              console.log(`Found metadata table at line ${i + 1}: ${line.trim()}`);
+              console.log('Found metadata table at line ' + (i + 1) + ': ' + line.trim());
               continue;
             }
             
             if (inMetadataTable && (line.includes('---') || line.includes('===') || line.includes('**KEY FEATURES**'))) {
-              console.log(`End of metadata table at line ${i + 1}: ${line.trim()}`);
+              console.log('End of metadata table at line ' + (i + 1) + ': ' + line.trim());
               break;
             }
             
             if (inMetadataTable && line.includes('|') && line.includes('**')) {
-              console.log(`Processing metadata line ${i + 1}: ${line.trim()}`);}
+              console.log('Processing metadata line ' + (i + 1) + ': ' + line.trim());
               const match = line.match(/\\|\\s*\\*\\*([^*]+)\\*\\*\\s*\\|\\s*([^|]+)\\s*\\|/);
               if (match) {
                 const key = match[1].trim().toLowerCase();
@@ -66,7 +66,7 @@ jobs:
                 // Skip empty or placeholder values
                 if (!value || value.startsWith('[') || value === 'none' || value === 'N/A' || value === '---') continue;
                 
-                console.log(\`Found metadata: \${key} = \${value}\`);
+                console.log('Found metadata: ' + key + ' = ' + value);
                 
                 switch (key) {
                   case 'category': 
@@ -91,15 +91,15 @@ jobs:
                     metadata.featured = value.toLowerCase() === 'true'; 
                     break;
                   case 'hasdownload': 
-                    console.log(`Processing hasDownload: ${value}`);
+                    console.log('Processing hasDownload: ' + value);
                     metadata.hasDownload = value.toLowerCase() === 'true'; 
                     break;
                   case 'downloadurl': 
-                    console.log(`Processing downloadUrl: ${value}`);
+                    console.log('Processing downloadUrl: ' + value);
                     if (value && !value.startsWith('[') && value !== 'none') metadata.downloadUrl = value; 
                     break;
                   case 'previewurl': 
-                    console.log(`Processing previewUrl: ${value}`);
+                    console.log('Processing previewUrl: ' + value);
                     if (value && !value.startsWith('[') && value !== 'none') metadata.previewUrl = value; 
                     break;
                 }
@@ -109,7 +109,7 @@ jobs:
           
           const result = Object.keys(metadata).length > 0 ? metadata : null;
           if (result) {
-            console.log(\`Parsed metadata for repo: \${JSON.stringify(result)}\`);
+            console.log('Parsed metadata for repo: ' + JSON.stringify(result));
           }
           return result;
         }
@@ -127,35 +127,35 @@ jobs:
           try {
             console.log('=== STARTING PORTFOLIO UPDATE ===');
             const repos = await fetchWithAuth('https://api.github.com/users/NathanLCleary/repos?per_page=100&sort=updated', process.env.GITHUB_TOKEN);
-            console.log(`Fetched ${repos.length} total repositories`);
+            console.log('Fetched ' + repos.length + ' total repositories');
             
             const publicRepos = repos.filter(repo => !repo.fork && !repo.private && repo.name !== 'NathanLCleary.github.io');
-            console.log(`Filtered to ${publicRepos.length} public repositories (excluding portfolio repo)`);
-            console.log(`Repository names: ${publicRepos.map(r => r.name).join(', ')}`);
+            console.log('Filtered to ' + publicRepos.length + ' public repositories (excluding portfolio repo)');
+            console.log('Repository names: ' + publicRepos.map(r => r.name).join(', '));
             
             const projects = [];
             
             for (let i = 0; i < publicRepos.length; i++) {
               const repo = publicRepos[i];
-              console.log(`\n--- Processing Repository ${i + 1}/${publicRepos.length}: ${repo.name} ---`);
-              console.log(`Repo details: language=${repo.language}, stars=${repo.stargazers_count}, created=${repo.created_at}`);
+              console.log('\\n--- Processing Repository ' + (i + 1) + '/' + publicRepos.length + ': ' + repo.name + ' ---');
+              console.log('Repo details: language=' + repo.language + ', stars=' + repo.stargazers_count + ', created=' + repo.created_at);
               
               let readme = null;
               try {
-                const readmeData = await fetchWithAuth(\`https://api.github.com/repos/NathanLCleary/\${repo.name}/readme\`, process.env.GITHUB_TOKEN);
+                const readmeData = await fetchWithAuth('https://api.github.com/repos/NathanLCleary/' + repo.name + '/readme', process.env.GITHUB_TOKEN);
                 if (readmeData && readmeData.content && !readmeData.message) {
                   readme = Buffer.from(readmeData.content, 'base64').toString('utf-8');
-                  console.log(\`Successfully read README for \${repo.name}\`);
+                  console.log('Successfully read README for ' + repo.name);
                 } else {
-                  console.log(\`README not found or empty for \${repo.name}\`);
+                  console.log('README not found or empty for ' + repo.name);
                 }
               } catch (e) {
-                console.log(\`Error fetching README for \${repo.name}: \${e.message}\`);
+                console.log('Error fetching README for ' + repo.name + ': ' + e.message);
               }
               
               const metadata = parseReadmeMetadata(readme);
               if (metadata) {
-                console.log(`✓ Metadata found: ${JSON.stringify(metadata, null, 2)}`);
+                console.log('✓ Metadata found: ' + JSON.stringify(metadata, null, 2));
               } else {
                 console.log('✗ No metadata found in README');
               }
@@ -186,45 +186,45 @@ jobs:
                 featured: metadata?.featured === true || repo.stargazers_count > 3
               };
               
-              console.log(`Project created for ${repo.name}:`);
-              console.log(`  - Category: ${project.category} (from metadata: ${metadata?.category || 'none'})`);
-              console.log(`  - Status: ${project.status} (from metadata: ${metadata?.status || 'none'})`);
-              console.log(`  - Languages: ${JSON.stringify(project.languages)} (from metadata: ${JSON.stringify(metadata?.languages) || 'none'})`);
-              console.log(`  - Technologies: ${JSON.stringify(project.technologies)} (from metadata: ${JSON.stringify(metadata?.technologies) || 'none'})`);
-              console.log(`  - HasDownload: ${project.hasDownload} (from metadata: ${metadata?.hasDownload})`);
-              console.log(`  - Featured: ${project.featured} (from metadata: ${metadata?.featured})`);
+              console.log('Project created for ' + repo.name + ':');
+              console.log('  - Category: ' + project.category + ' (from metadata: ' + (metadata?.category || 'none') + ')');
+              console.log('  - Status: ' + project.status + ' (from metadata: ' + (metadata?.status || 'none') + ')');
+              console.log('  - Languages: ' + JSON.stringify(project.languages) + ' (from metadata: ' + (JSON.stringify(metadata?.languages) || 'none') + ')');
+              console.log('  - Technologies: ' + JSON.stringify(project.technologies) + ' (from metadata: ' + (JSON.stringify(metadata?.technologies) || 'none') + ')');
+              console.log('  - HasDownload: ' + project.hasDownload + ' (from metadata: ' + metadata?.hasDownload + ')');
+              console.log('  - Featured: ' + project.featured + ' (from metadata: ' + metadata?.featured + ')');
               
               // Handle download/preview URLs
-              console.log(`URL Processing for ${repo.name}:`);
-              console.log(`  - hasDownload: ${project.hasDownload}`);
-              console.log(`  - metadata.downloadUrl: ${metadata?.downloadUrl || 'none'}`);
-              console.log(`  - metadata.previewUrl: ${metadata?.previewUrl || 'none'}`);
+              console.log('URL Processing for ' + repo.name + ':');
+              console.log('  - hasDownload: ' + project.hasDownload);
+              console.log('  - metadata.downloadUrl: ' + (metadata?.downloadUrl || 'none'));
+              console.log('  - metadata.previewUrl: ' + (metadata?.previewUrl || 'none'));
               
               if (project.hasDownload) {
                 if (metadata?.downloadUrl && metadata.downloadUrl !== 'none') {
-                  console.log(`  → Using downloadUrl: ${metadata.downloadUrl}`);
+                  console.log('  → Using downloadUrl: ' + metadata.downloadUrl);
                   if (metadata.downloadUrl.startsWith('http')) {
                     project.downloadUrl = metadata.downloadUrl;
-                    console.log(`  → Set as direct URL: ${project.downloadUrl}`);
+                    console.log('  → Set as direct URL: ' + project.downloadUrl);
                   } else {
-                    project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
-                    console.log(`  → Set as GitHub releases: ${project.downloadUrl}`);
+                    project.downloadUrl = repo.html_url + '/releases/latest';
+                    console.log('  → Set as GitHub releases: ' + project.downloadUrl);
                   }
                 } else if (metadata?.previewUrl && metadata.previewUrl !== 'none') {
-                  console.log(`  → Using previewUrl: ${metadata.previewUrl}`);
+                  console.log('  → Using previewUrl: ' + metadata.previewUrl);
                   if (metadata.previewUrl.startsWith('http')) {
                     project.downloadUrl = metadata.previewUrl;
-                    console.log(`  → Set as direct URL: ${project.downloadUrl}`);
+                    console.log('  → Set as direct URL: ' + project.downloadUrl);
                   } else {
-                    project.downloadUrl = \`https://nathanlcleary.github.io/\${metadata.previewUrl}\`;
-                    console.log(`  → Set as GitHub Pages: ${project.downloadUrl}`);
+                    project.downloadUrl = 'https://nathanlcleary.github.io/' + metadata.previewUrl;
+                    console.log('  → Set as GitHub Pages: ' + project.downloadUrl);
                   }
                 } else {
-                  project.downloadUrl = \`\${repo.html_url}/releases/latest\`;
-                  console.log(`  → Fallback to GitHub releases: ${project.downloadUrl}`);
+                  project.downloadUrl = repo.html_url + '/releases/latest';
+                  console.log('  → Fallback to GitHub releases: ' + project.downloadUrl);
                 }
               } else {
-                console.log(`  → No download URL (hasDownload is false)`);
+                console.log('  → No download URL (hasDownload is false)');
               }
               
               projects.push(project);
@@ -233,17 +233,17 @@ jobs:
             const currentFile = fs.readFileSync('js/projects.js', 'utf8');
             
             const newContent = currentFile.replace(
-              /const projectsData = \[[\s\S]*?\];/,
-              \`const projectsData = \${JSON.stringify(projects, null, 4)};\`
+              /const projectsData = \\[[\\s\\S]*?\\];/,
+              'const projectsData = ' + JSON.stringify(projects, null, 4) + ';'
             );
             
             fs.writeFileSync('js/projects.js', newContent);
             
-            console.log('\n=== PORTFOLIO UPDATE COMPLETE ===');
-            console.log(\`Total projects processed: \${projects.length}\`);
+            console.log('\\n=== PORTFOLIO UPDATE COMPLETE ===');
+            console.log('Total projects processed: ' + projects.length);
             console.log('Projects with downloads:', projects.filter(p => p.hasDownload).map(p => p.title));
-            console.log('Projects with URLs:', projects.filter(p => p.downloadUrl).map(p => \`\${p.title}: \${p.downloadUrl}\`));
-            console.log(\`Updated portfolio with \${projects.length} projects\`);
+            console.log('Projects with URLs:', projects.filter(p => p.downloadUrl).map(p => p.title + ': ' + p.downloadUrl));
+            console.log('Updated portfolio with ' + projects.length + ' projects');
           } catch (error) {
             console.error('Error:', error);
             process.exit(1);
